@@ -1,0 +1,20 @@
+spawn:
+  world: world
+  x: 0.0
+  y: 64.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+
+freeze:
+  message:
+    - '&6&m-------------------------------------'
+    - '     &7(&c&lWARNING!&7)     &7(&c&lWARNING!&7)'
+    - ''
+    - '         &4&lYou are currently frozen!'
+    - '&4&lPlease answer any message by a staff member'
+    - '           &4&land &ndo not log out!'
+    - ''
+    - '     &7(&c&lWARNING!&7)     &7(&c&lWARNING!&7)'
+    - '&6&m-------------------------------------'
+  message-delay: 100

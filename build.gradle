@@ -1,0 +1,42 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+}
+
+def pluginName = 'LuckyStaffMode'
+group 'id.luckynetwork.dev.luckystaffmode'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    implementation 'org.jetbrains:annotations:21.0.1'
+
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly files('libraries/SuperVanish.jar')
+    compileOnly files('libraries/StrikePractice.jar')
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+jar {
+    archiveFileName = pluginName + "-" + project.version + ".jar"
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "version": project.version.toString(),
+            "mainClass": project.group + ".$pluginName",
+            "name": pluginName
+    ]
+}

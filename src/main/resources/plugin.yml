@@ -1,0 +1,11 @@
+name: @name@
+version: @version@
+main: @mainClass@
+softdepend: [ StrikePractice, SuperVanish, PremiumVanish ]
+author: LyraMS
+
+commands:
+  freeze:
+    aliases: [ ss ]
+  staffmode:
+    aliases: [ sm, mod ]
