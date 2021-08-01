@@ -73,3 +73,4 @@ public class LuckyStaffMode extends JavaPlugin {
         Arrays.stream(listeners).forEach(it -> Bukkit.getPluginManager().registerEvents(it, this));
     }
 }
+
