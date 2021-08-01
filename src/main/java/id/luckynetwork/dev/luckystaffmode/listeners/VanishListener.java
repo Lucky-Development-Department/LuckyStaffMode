@@ -22,8 +22,6 @@ public class VanishListener implements Listener {
             player.removeMetadata("TEMP_VTOGGLE", plugin);
             return;
         }
-
-        StaffModeHandler.staffModeOn(player, false);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -33,7 +31,5 @@ public class VanishListener implements Listener {
             player.removeMetadata("TEMP_VTOGGLE", plugin);
             return;
         }
-
-        StaffModeHandler.staffModeOff(player, false);
     }
 }
