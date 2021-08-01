@@ -3,7 +3,7 @@ package id.luckynetwork.dev.luckystaffmode.listeners;
 import id.luckynetwork.dev.luckystaffmode.LuckyStaffMode;
 import id.luckynetwork.dev.luckystaffmode.data.PlayerData;
 import id.luckynetwork.dev.luckystaffmode.handlers.FreezeHandler;
-import id.luckynetwork.dev.luckystaffmode.hooks.VanishHook;
+import id.luckynetwork.dev.luckystaffmode.hooks.PlayerVanishHook;
 import id.luckynetwork.dev.luckystaffmode.utils.LastInventory;
 import id.luckynetwork.dev.luckystaffmode.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -30,9 +30,9 @@ public class ConnectionListeners implements Listener {
 
             String message = "§e§lFREEZE §a/ §d" + player.getName() + " §alogged in §ewhile frozen at §b" + Utils.getFormattedDate() + "§e!";
             Bukkit.getOnlinePlayers().stream().filter(it -> it.hasPermission("luckystaff.staff")).forEach(it -> it.sendMessage(message));
-        }
 
-        VanishHook.checkOnJoin(player);
+            PlayerVanishHook.checkOnJoin(player);
+        }
     }
 
     @EventHandler
