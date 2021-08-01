@@ -2,8 +2,8 @@ package id.luckynetwork.dev.luckystaffmode.handlers;
 
 import id.luckynetwork.dev.luckystaffmode.LuckyStaffMode;
 import id.luckynetwork.dev.luckystaffmode.data.PlayerData;
+import id.luckynetwork.dev.luckystaffmode.hooks.PlayerVanishHook;
 import id.luckynetwork.dev.luckystaffmode.hooks.StrikePracticeHook;
-import id.luckynetwork.dev.luckystaffmode.hooks.VanishHook;
 import id.luckynetwork.dev.luckystaffmode.utils.CustomItem;
 import id.luckynetwork.dev.luckystaffmode.utils.ItemBuilder;
 import id.luckynetwork.dev.luckystaffmode.utils.LastInventory;
@@ -34,10 +34,10 @@ public class StaffModeHandler {
 
         customItems.add(new CustomItem(
                 new ItemBuilder(Material.COMPASS)
-                        .setName("§cTeleporter")
+                        .setName("§cTeleporter §7(Right Click)")
                         .addLoreLine("§7Click to teleport across blocks")
                         .toItemStack(),
-                0,
+                6,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -62,10 +62,10 @@ public class StaffModeHandler {
         customItems.add(new CustomItem(
                 new ItemBuilder(Material.SKULL_ITEM)
                         .setDurability((short) 3)
-                        .setName("§eRandom Teleport")
+                        .setName("§eRandom Teleport §7(Right Click)")
                         .addLoreLine("§7Click to teleport to a random player")
                         .toItemStack(),
-                1,
+                2,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -77,7 +77,7 @@ public class StaffModeHandler {
                         int failCounter = 0;
 
                         if (players.length <= 1) {
-                            player.sendMessage("§Cannot find any players to teleport to!");
+                            player.sendMessage("§e§lSTAFFMODE §a/ §cCannot find any players to teleport!");
                             return;
                         }
 
@@ -87,13 +87,13 @@ public class StaffModeHandler {
 
                             failCounter++;
                             if (failCounter >= 10) {
-                                player.sendMessage("§cFailed to teleport to a random player!");
+                                player.sendMessage("§e§lSTAFFMODE §a/ §cFailed to teleport to a random player!");
                                 return;
                             }
                         }
 
                         player.teleport(randomPlayer.getLocation());
-                        player.sendMessage("§aTeleported to " + randomPlayer.getName() + "!");
+                        player.sendMessage("§e§lSTAFFMODE §a/ §aTeleported to " + randomPlayer.getName() + "!");
                     }
 
                     @Override
@@ -104,10 +104,10 @@ public class StaffModeHandler {
 
         customItems.add(new CustomItem(
                 new ItemBuilder(Material.DIAMOND)
-                        .setName("§6Spawn")
+                        .setName("§6Spawn §7(Right Click)")
                         .addLoreLine("§7Click to teleport to spawn")
                         .toItemStack(),
-                2,
+                3,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -140,10 +140,10 @@ public class StaffModeHandler {
 
         customItems.add(new CustomItem(
                 new ItemBuilder(Material.ICE)
-                        .setName("§bFreeze")
+                        .setName("§bFreeze §7(Right Click)")
                         .addLoreLine("§7Click freeze a player")
                         .toItemStack(),
-                4,
+                5,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -170,7 +170,7 @@ public class StaffModeHandler {
                         .addEnchantment(Enchantment.DAMAGE_ALL, 1000)
                         .hideEnchants()
                         .toItemStack(),
-                5,
+                0,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -187,7 +187,7 @@ public class StaffModeHandler {
                 })
         );
 
-        if (VanishHook.hooked) {
+        if (PlayerVanishHook.hooked) {
             ItemStack unvanishedItem = new ItemBuilder(Material.INK_SACK)
                     .setDurability((short) 8)
                     .setName("§cToggle Vanish(Off)")
@@ -205,7 +205,7 @@ public class StaffModeHandler {
                         public void onPlayerInteract(PlayerInteractEvent event) {
                             Player player = event.getPlayer();
                             player.setMetadata("TEMP_VTOGGLE", new FixedMetadataValue(plugin, true));
-                            VanishHook.hide(player);
+                            PlayerVanishHook.hide(player);
 
                             player.getInventory().setItem(8, vanishedItem);
                             player.updateInventory();
@@ -224,7 +224,7 @@ public class StaffModeHandler {
                         public void onPlayerInteract(PlayerInteractEvent event) {
                             Player player = event.getPlayer();
                             player.setMetadata("TEMP_VTOGGLE", new FixedMetadataValue(plugin, true));
-                            VanishHook.show(player);
+                            PlayerVanishHook.show(player);
 
                             player.getInventory().setItem(8, unvanishedItem);
                             player.updateInventory();
@@ -238,9 +238,9 @@ public class StaffModeHandler {
             customItems.add(vanishedCustomItem);
         }
 
-
         customItems.forEach(customItem -> plugin.getCacheManager().getCustomItems().put(customItem.getItem(), customItem));
     }
+
 
     public void toggleStaffMode(Player player, boolean toggleVanish) {
         PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
@@ -263,15 +263,14 @@ public class StaffModeHandler {
         inventory.setArmorContents(null);
         plugin.getCacheManager().getCustomItems().values()
                 .forEach(customItem -> inventory.setItem(customItem.getSlot(), customItem.getItem()));
-        inventory.setItem(vanishedCustomItem.getSlot(), vanishedCustomItem.getItem());
 
         player.updateInventory();
         player.setGameMode(GameMode.CREATIVE);
 
         if (vanish) {
-            VanishHook.hide(player);
+            PlayerVanishHook.hide(player);
+            playerData.setStaffMode(true);
         }
-        playerData.setStaffMode(true);
         player.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode §aenabled");
 
         playerData.save();
@@ -288,12 +287,13 @@ public class StaffModeHandler {
 
             player.updateInventory();
             playerData.setLastInventory(null);
+
         }
 
         if (unvanish) {
-            VanishHook.show(player);
+            PlayerVanishHook.show(player);
+            playerData.setStaffMode(false);
         }
-        playerData.setStaffMode(false);
         player.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode §cdisabled");
 
         playerData.save();
