@@ -23,13 +23,21 @@ public class FreezeCommand implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            sender.sendMessage("§e§lFREEZE §a/ §cUsage: /freeze <player>");
-            sender.sendMessage("§e§lFREEZE §a/ §cUsage: /freeze list");
+            sender.sendMessage("§8§m-------------------------------------------");
+            sender.sendMessage("                          §e§lFREEZE COMMANDS");
+            sender.sendMessage("");
+            sender.sendMessage("§c/freeze <player> - to freeze on target player.");
+            sender.sendMessage("§c/freeze list - list using freeze.");
+            sender.sendMessage("§8§m-------------------------------------------");
             return false;
         }
 
         if (args[0].equalsIgnoreCase("list")) {
             sender.sendMessage("§e§lFREEZE §a/ §eFrozen players: §d" + Joiner.on(", ").join(plugin.getCacheManager().getFrozenPlayers()));
+
+            if (plugin.getCacheManager().getStaffModePlayers().isEmpty()) {
+                sender.sendMessage("§e§lFREEZE §a/ §cCannot find player using freeze!");
+            }
             return false;
         }
 

@@ -27,4 +27,4 @@ Features:
 ```
 
 ### QnA
-* Custom item config where? no lol
+* Custom item config where? no lol.

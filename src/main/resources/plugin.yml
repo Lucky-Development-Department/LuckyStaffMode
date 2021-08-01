@@ -2,7 +2,7 @@ name: @name@
 version: @version@
 main: @mainClass@
 softdepend: [ StrikePractice, SuperVanish, PremiumVanish ]
-author: LyraMS
+authors: [Zeeppss, LyraMS]
 
 commands:
   freeze:
