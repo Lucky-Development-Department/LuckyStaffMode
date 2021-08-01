@@ -33,24 +33,32 @@ public class StaffModeCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("help")) {
-            sender.sendMessage("§e§lSTAFFMODE §a/ §cUsage: /staffmode");
-            sender.sendMessage("§e§lSTAFFMODE §a/ §cUsage: /staffmode <player>");
-            sender.sendMessage("§e§lSTAFFMODE §a/ §cUsage: /staffmode list");
+            sender.sendMessage("§8§m-------------------------------------------");
+            sender.sendMessage("                          §e§lSTAFFMODE COMMANDS");
+            sender.sendMessage("");
+            sender.sendMessage("§c/staffmode - to enable and disable.");
+            sender.sendMessage("§c/staffmode <player> - to activate on target player.");
+            sender.sendMessage("§c/staffmode list - list using staffmode.");
+            sender.sendMessage("§8§m-------------------------------------------");
             return false;
         }
 
         if (args[0].equalsIgnoreCase("list")) {
             sender.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode players: §d" + Joiner.on(", ").join(plugin.getCacheManager().getStaffModePlayers()));
+
+            if (plugin.getCacheManager().getStaffModePlayers().isEmpty()) {
+                sender.sendMessage("§e§lSTAFFMODE §a/ §cCannot find player using staffmode!");
+            }
             return false;
         }
 
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
+        Player targetPlayer = Bukkit.getPlayer(args[0]);
+        if (targetPlayer == null) {
             sender.sendMessage("§e§lSTAFFMODE §a/ §cPlayer not found!");
             return false;
         }
 
-        StaffModeHandler.toggleStaffMode(target, true);
+        StaffModeHandler.toggleStaffMode(targetPlayer, true);
         return false;
     }
 }
