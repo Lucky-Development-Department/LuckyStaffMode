@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
 @UtilityClass
-public class VanishHook {
+public class PlayerVanishHook {
 
     private final LuckyStaffMode plugin;
     public boolean hooked = false;
@@ -57,9 +57,6 @@ public class VanishHook {
                 if (Bukkit.getPlayer(player.getUniqueId()) != null) {
                     if (VanishAPI.isInvisible(player) || player.hasMetadata("vanished")) {
                         PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
-                        if (!playerData.isStaffMode()) {
-                            StaffModeHandler.staffModeOn(player, false);
-                        }
                     }
                 }
             }, 1_000);
