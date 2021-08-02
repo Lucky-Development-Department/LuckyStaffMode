@@ -1,4 +1,5 @@
 staffmode-on-vanish: true
+staffmode-check-join: true
 
 spawn:
   world: world

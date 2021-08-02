@@ -14,12 +14,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class PlayerVanishHook {
 
     private final LuckyStaffMode plugin;
+    private boolean checkOnJoin = true;
     public boolean hooked = false;
 
     static {
         plugin = LuckyStaffMode.getInstance();
         try {
             hooked = Bukkit.getPluginManager().getPlugin("SuperVanish") != null || Bukkit.getPluginManager().getPlugin("PremiumVanish") != null;
+            checkOnJoin = plugin.getConfig().getBoolean("staffmode-check-join", true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,14 +54,19 @@ public class PlayerVanishHook {
             return;
         }
 
-        if (player.hasPermission("sv.use") || player.hasPermission("pv.use")) {
-            LyraTasks.runLaterAsync(() -> {
-                if (Bukkit.getPlayer(player.getUniqueId()) != null) {
-                    if (VanishAPI.isInvisible(player) || player.hasMetadata("vanished")) {
-                        PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
+        if (checkOnJoin) {
+            if (player.hasPermission("sv.use") || player.hasPermission("pv.use")) {
+                LyraTasks.runLaterAsync(() -> {
+                    if (Bukkit.getPlayer(player.getUniqueId()) != null) {
+                        if (VanishAPI.isInvisible(player) || player.hasMetadata("vanished")) {
+                            PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
+                            if (!playerData.isStaffMode()) {
+                                StaffModeHandler.staffModeOn(player, false);
+                            }
+                        }
                     }
-                }
-            }, 1_000);
+                }, 1_000);
+            }
         }
     }
 }
