@@ -18,18 +18,26 @@ public class VanishListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onVanish(PlayerHideEvent event) {
         Player player = event.getPlayer();
-        if (player.hasMetadata("TEMP_VTOGGLE")) {
-            player.removeMetadata("TEMP_VTOGGLE", plugin);
-            return;
+        if (player.hasPermission("luckystaff.staff")) {
+            if (player.hasMetadata("TEMP_VTOGGLE")) {
+                player.removeMetadata("TEMP_VTOGGLE", plugin);
+                return;
+            }
+
+            StaffModeHandler.staffModeOn(player, false);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onUnVanish(PlayerShowEvent event) {
         Player player = event.getPlayer();
-        if (player.hasMetadata("TEMP_VTOGGLE")) {
-            player.removeMetadata("TEMP_VTOGGLE", plugin);
-            return;
+        if (player.hasPermission("luckystaff.staff")) {
+            if (player.hasMetadata("TEMP_VTOGGLE")) {
+                player.removeMetadata("TEMP_VTOGGLE", plugin);
+                return;
+            }
+
+            StaffModeHandler.staffModeOff(player, false);
         }
     }
 }

@@ -64,8 +64,10 @@ public class LuckyStaffMode extends JavaPlugin {
                 new MoveListener(this)
         );
 
-        if (Bukkit.getPluginManager().getPlugin("SuperVanish") != null || Bukkit.getPluginManager().getPlugin("PremiumVanish") != null) {
-            this.registerListeners(new VanishListener(this));
+        if (this.getConfig().getBoolean("staffmode-on-vanish", true)) {
+            if (Bukkit.getPluginManager().getPlugin("SuperVanish") != null || Bukkit.getPluginManager().getPlugin("PremiumVanish") != null) {
+                this.registerListeners(new VanishListener(this));
+            }
         }
     }
 

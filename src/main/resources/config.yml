@@ -1,3 +1,5 @@
+staffmode-on-vanish: true
+
 spawn:
   world: world
   x: 0.0

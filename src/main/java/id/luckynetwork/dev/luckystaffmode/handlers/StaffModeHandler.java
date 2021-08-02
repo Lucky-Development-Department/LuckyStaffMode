@@ -269,8 +269,8 @@ public class StaffModeHandler {
 
         if (vanish) {
             PlayerVanishHook.hide(player);
-            playerData.setStaffMode(true);
         }
+        playerData.setStaffMode(true);
         player.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode §aenabled");
 
         playerData.save();
@@ -292,8 +292,8 @@ public class StaffModeHandler {
 
         if (unvanish) {
             PlayerVanishHook.show(player);
-            playerData.setStaffMode(false);
         }
+        playerData.setStaffMode(false);
         player.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode §cdisabled");
 
         playerData.save();
