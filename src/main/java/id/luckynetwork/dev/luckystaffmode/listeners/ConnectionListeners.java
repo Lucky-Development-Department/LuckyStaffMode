@@ -30,7 +30,10 @@ public class ConnectionListeners implements Listener {
 
             String message = "§e§lFREEZE §a/ §d" + player.getName() + " §alogged in §ewhile frozen at §b" + Utils.getFormattedDate() + "§e!";
             Bukkit.getOnlinePlayers().stream().filter(it -> it.hasPermission("luckystaff.staff")).forEach(it -> it.sendMessage(message));
+            return;
+        }
 
+        if (player.hasPermission("luckystaff.staff")) {
             PlayerVanishHook.checkOnJoin(player);
         }
     }
