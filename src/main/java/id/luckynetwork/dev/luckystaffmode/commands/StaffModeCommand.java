@@ -44,11 +44,12 @@ public class StaffModeCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("list")) {
-            sender.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode players: §d" + Joiner.on(", ").join(plugin.getCacheManager().getStaffModePlayers()));
-
             if (plugin.getCacheManager().getStaffModePlayers().isEmpty()) {
-                sender.sendMessage("§e§lSTAFFMODE §a/ §cCannot find player using staffmode!");
+                sender.sendMessage("§e§lSTAFFMODE §a/ §cThere are no player using staffmode!");
+                return false;
             }
+
+            sender.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode players: §d" + Joiner.on(", ").join(plugin.getCacheManager().getStaffModePlayers()));
             return false;
         }
 

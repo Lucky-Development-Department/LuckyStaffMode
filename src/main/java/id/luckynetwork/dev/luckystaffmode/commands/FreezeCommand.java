@@ -5,10 +5,14 @@ import id.luckynetwork.dev.luckystaffmode.LuckyStaffMode;
 import id.luckynetwork.dev.luckystaffmode.handlers.FreezeHandler;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class FreezeCommand implements CommandExecutor {
@@ -33,11 +37,15 @@ public class FreezeCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("list")) {
-            sender.sendMessage("§e§lFREEZE §a/ §eFrozen players: §d" + Joiner.on(", ").join(plugin.getCacheManager().getFrozenPlayers()));
-
-            if (plugin.getCacheManager().getStaffModePlayers().isEmpty()) {
-                sender.sendMessage("§e§lFREEZE §a/ §cCannot find player using freeze!");
+            if (plugin.getCacheManager().getStaffModePlayers().isEmpty() && plugin.getCacheManager().getTempFrozenPlayersStorage().isEmpty()) {
+                sender.sendMessage("§e§lFREEZE §a/ §cThere are no frozen players!");
+                return false;
             }
+
+            ArrayList<String> frozenPlayers = plugin.getCacheManager().getFrozenPlayers().stream().map(Player::getName).collect(Collectors.toCollection(ArrayList::new));
+            frozenPlayers.addAll(plugin.getCacheManager().getTempFrozenPlayersStorage().stream().map(Bukkit::getOfflinePlayer).map(OfflinePlayer::getName).collect(Collectors.toList()));
+
+            sender.sendMessage("§e§lFREEZE §a/ §eFrozen players: §d" + Joiner.on(", ").join(frozenPlayers));
             return false;
         }
 
