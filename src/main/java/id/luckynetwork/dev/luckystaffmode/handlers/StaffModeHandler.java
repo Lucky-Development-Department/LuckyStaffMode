@@ -37,7 +37,7 @@ public class StaffModeHandler {
                         .setName("§cTeleporter §7(Right Click)")
                         .addLoreLine("§7Click to teleport across blocks")
                         .toItemStack(),
-                6,
+                0,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -65,7 +65,7 @@ public class StaffModeHandler {
                         .setName("§eRandom Teleport §7(Right Click)")
                         .addLoreLine("§7Click to teleport to a random player")
                         .toItemStack(),
-                2,
+                1,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -107,7 +107,7 @@ public class StaffModeHandler {
                         .setName("§6Spawn §7(Right Click)")
                         .addLoreLine("§7Click to teleport to spawn")
                         .toItemStack(),
-                3,
+                2,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -143,7 +143,7 @@ public class StaffModeHandler {
                         .setName("§bFreeze §7(Right Click)")
                         .addLoreLine("§7Click freeze a player")
                         .toItemStack(),
-                5,
+                4,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -170,7 +170,7 @@ public class StaffModeHandler {
                         .addEnchantment(Enchantment.DAMAGE_ALL, 1000)
                         .hideEnchants()
                         .toItemStack(),
-                0,
+                5,
                 new CustomItem.Callable() {
                     @Override
                     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -263,6 +263,7 @@ public class StaffModeHandler {
         inventory.setArmorContents(null);
         plugin.getCacheManager().getCustomItems().values()
                 .forEach(customItem -> inventory.setItem(customItem.getSlot(), customItem.getItem()));
+        inventory.setItem(vanishedCustomItem.getSlot(), vanishedCustomItem.getItem());
 
         player.updateInventory();
         player.setGameMode(GameMode.CREATIVE);
