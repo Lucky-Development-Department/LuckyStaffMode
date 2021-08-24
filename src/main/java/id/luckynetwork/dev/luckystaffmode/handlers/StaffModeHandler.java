@@ -327,6 +327,25 @@ public class StaffModeHandler {
         playerData.save();
     }
 
+    public void refreshInventory(Player player) {
+        PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
+
+        PlayerInventory inventory = player.getInventory();
+        if (playerData.isCanBuild()) {
+            inventory.setItem(buildModeOnCustomItem.getSlot(), buildModeOnCustomItem.getItem());
+        } else {
+            inventory.setItem(buildModeOffCustomItem.getSlot(), buildModeOffCustomItem.getItem());
+        }
+
+        if (player.hasMetadata("vanished")) {
+            inventory.setItem(vanishedCustomItem.getSlot(), vanishedCustomItem.getItem());
+        } else {
+            inventory.setItem(unVanishedCustomItem.getSlot(), unVanishedCustomItem.getItem());
+        }
+
+        player.updateInventory();
+    }
+
     public void staffModeOff(Player player, boolean unvanish) {
         PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
 

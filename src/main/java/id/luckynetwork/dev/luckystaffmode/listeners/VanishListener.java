@@ -19,6 +19,7 @@ public class VanishListener implements Listener {
     public void onVanish(PlayerHideEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("luckystaff.staff")) {
+            StaffModeHandler.refreshInventory(player);
             if (player.hasMetadata("TEMP_VTOGGLE")) {
                 player.removeMetadata("TEMP_VTOGGLE", plugin);
                 return;
@@ -32,6 +33,7 @@ public class VanishListener implements Listener {
     public void onUnVanish(PlayerShowEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("luckystaff.staff")) {
+            StaffModeHandler.refreshInventory(player);
             if (player.hasMetadata("TEMP_VTOGGLE")) {
                 player.removeMetadata("TEMP_VTOGGLE", plugin);
                 return;

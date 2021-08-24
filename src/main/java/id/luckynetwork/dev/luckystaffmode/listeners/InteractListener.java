@@ -2,6 +2,7 @@ package id.luckynetwork.dev.luckystaffmode.listeners;
 
 import id.luckynetwork.dev.luckystaffmode.LuckyStaffMode;
 import id.luckynetwork.dev.luckystaffmode.data.PlayerData;
+import id.luckynetwork.dev.luckystaffmode.handlers.StaffModeHandler;
 import id.luckynetwork.dev.luckystaffmode.utils.CustomItem;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
@@ -22,6 +23,7 @@ public class InteractListener implements Listener {
         Player player = event.getPlayer();
         PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
         if (playerData.isStaffMode()) {
+            StaffModeHandler.refreshInventory(player);
             ItemStack itemInHand = player.getItemInHand();
             if (itemInHand != null && itemInHand.getType() != Material.AIR) {
                 CustomItem customItem = plugin.getCacheManager().getCustomItem(itemInHand);
