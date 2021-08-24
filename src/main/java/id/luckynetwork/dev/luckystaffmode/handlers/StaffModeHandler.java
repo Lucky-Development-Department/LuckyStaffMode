@@ -28,6 +28,9 @@ public class StaffModeHandler {
 
     private final LuckyStaffMode plugin = LuckyStaffMode.getInstance();
     private CustomItem vanishedCustomItem;
+    private CustomItem unVanishedCustomItem;
+    private CustomItem buildModeOnCustomItem;
+    private CustomItem buildModeOffCustomItem;
 
     public void loadCustomItems() {
         List<CustomItem> customItems = new ArrayList<>();
@@ -187,6 +190,54 @@ public class StaffModeHandler {
                 })
         );
 
+        ItemStack buildModeOffItem = new ItemBuilder(Material.WORKBENCH)
+                .setName("§cToggle Build(Off)")
+                .toItemStack();
+        ItemStack buildModeOnItem = new ItemBuilder(Material.WORKBENCH)
+                .setName("§aToggle Build(On)")
+                .toItemStack();
+        buildModeOffCustomItem = new CustomItem(
+                buildModeOffItem,
+                6,
+                new CustomItem.Callable() {
+                    @Override
+                    public void onPlayerInteract(PlayerInteractEvent event) {
+                        Player player = event.getPlayer();
+                        PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
+                        playerData.setCanBuild(true);
+                        playerData.save();
+
+                        player.getInventory().setItem(6, buildModeOnItem);
+                        player.updateInventory();
+                    }
+
+                    @Override
+                    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+                    }
+                });
+        customItems.add(buildModeOffCustomItem);
+
+        buildModeOnCustomItem = new CustomItem(
+                buildModeOnItem,
+                6,
+                new CustomItem.Callable() {
+                    @Override
+                    public void onPlayerInteract(PlayerInteractEvent event) {
+                        Player player = event.getPlayer();
+                        PlayerData playerData = plugin.getCacheManager().getPlayerData(player);
+                        playerData.setCanBuild(false);
+                        playerData.save();
+
+                        player.getInventory().setItem(6, buildModeOffItem);
+                        player.updateInventory();
+                    }
+
+                    @Override
+                    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+                    }
+                });
+        customItems.add(buildModeOnCustomItem);
+
         if (PlayerVanishHook.hooked) {
             ItemStack unvanishedItem = new ItemBuilder(Material.INK_SACK)
                     .setDurability((short) 8)
@@ -196,8 +247,7 @@ public class StaffModeHandler {
                     .setDurability((short) 10)
                     .setName("§aToggle Vanish(On)")
                     .toItemStack();
-
-            customItems.add(new CustomItem(
+            unVanishedCustomItem = new CustomItem(
                     unvanishedItem,
                     8,
                     new CustomItem.Callable() {
@@ -214,8 +264,9 @@ public class StaffModeHandler {
                         @Override
                         public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
                         }
-                    })
-            );
+                    });
+            customItems.add(unVanishedCustomItem);
+
             vanishedCustomItem = new CustomItem(
                     vanishedItem,
                     8,
@@ -234,7 +285,6 @@ public class StaffModeHandler {
                         public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
                         }
                     });
-
             customItems.add(vanishedCustomItem);
         }
 
@@ -261,9 +311,9 @@ public class StaffModeHandler {
 
         inventory.clear();
         inventory.setArmorContents(null);
-        plugin.getCacheManager().getCustomItems().values()
-                .forEach(customItem -> inventory.setItem(customItem.getSlot(), customItem.getItem()));
+        plugin.getCacheManager().getCustomItems().values().forEach(customItem -> inventory.setItem(customItem.getSlot(), customItem.getItem()));
         inventory.setItem(vanishedCustomItem.getSlot(), vanishedCustomItem.getItem());
+        inventory.setItem(buildModeOnCustomItem.getSlot(), buildModeOnCustomItem.getItem());
 
         player.updateInventory();
         player.setGameMode(GameMode.CREATIVE);
@@ -288,13 +338,13 @@ public class StaffModeHandler {
 
             player.updateInventory();
             playerData.setLastInventory(null);
-
         }
 
         if (unvanish) {
             PlayerVanishHook.show(player);
         }
         playerData.setStaffMode(false);
+        playerData.setCanBuild(false);
         player.sendMessage("§e§lSTAFFMODE §a/ §eStaffMode §cdisabled");
 
         playerData.save();

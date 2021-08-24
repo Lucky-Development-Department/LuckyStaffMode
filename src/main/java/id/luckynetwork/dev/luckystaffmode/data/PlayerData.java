@@ -16,6 +16,7 @@ public class PlayerData {
     private final Player player;
     private boolean frozen = false;
     private boolean staffMode = false;
+    private boolean canBuild = false;
     private LastInventory lastInventory = null;
 
     public void save() {

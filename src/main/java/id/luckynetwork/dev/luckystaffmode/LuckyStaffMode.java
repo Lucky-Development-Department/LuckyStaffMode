@@ -57,6 +57,7 @@ public class LuckyStaffMode extends JavaPlugin {
 
     private void registerListener() {
         this.registerListeners(
+                new BuildListeners(this),
                 new ConnectionListeners(this),
                 new DamageListener(this),
                 new InteractListener(this),
