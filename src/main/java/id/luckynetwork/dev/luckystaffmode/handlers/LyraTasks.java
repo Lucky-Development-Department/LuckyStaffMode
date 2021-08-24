@@ -1,8 +1,10 @@
 package id.luckynetwork.dev.luckystaffmode.handlers;
 
+import id.luckynetwork.dev.luckystaffmode.LuckyStaffMode;
 import id.luckynetwork.dev.luckystaffmode.utils.ExecutorUtils;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +28,10 @@ public class LyraTasks {
             ex.printStackTrace();
             return null;
         });
+    }
+
+    public void runLater(Callable callable, long delayInTicks) {
+        Bukkit.getScheduler().runTaskLater(LuckyStaffMode.getInstance(), callable::call, delayInTicks);
     }
 
     public interface Callable {
