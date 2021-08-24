@@ -313,7 +313,7 @@ public class StaffModeHandler {
         inventory.setArmorContents(null);
         plugin.getCacheManager().getCustomItems().values().forEach(customItem -> inventory.setItem(customItem.getSlot(), customItem.getItem()));
         inventory.setItem(vanishedCustomItem.getSlot(), vanishedCustomItem.getItem());
-        inventory.setItem(buildModeOnCustomItem.getSlot(), buildModeOnCustomItem.getItem());
+        inventory.setItem(buildModeOffCustomItem.getSlot(), buildModeOffCustomItem.getItem());
 
         player.updateInventory();
         player.setGameMode(GameMode.CREATIVE);
